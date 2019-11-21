@@ -1,0 +1,14 @@
+
+.normal {
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: normal;
+  letter-spacing: -1px;
+  background: linear-gradient(to right, rgb(33, 147, 176), rgb(109, 213, 237));
+  padding: .6em 0;
+  color: white;
+  margin: 0;
+}
