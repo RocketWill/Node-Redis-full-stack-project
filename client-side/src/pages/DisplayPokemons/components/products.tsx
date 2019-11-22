@@ -11,10 +11,10 @@ class Products extends Component<any, any> {
             .then((res: any) => {
                 console.log(res.data);
                 const { dispatch } = this.props;
-                dispatch({
-                    type: 'products/save',
-                    payload: res.data,
-                });
+                // dispatch({
+                //     type: 'products/save',
+                //     payload: res.data,
+                // });
             })
     }
     render() {

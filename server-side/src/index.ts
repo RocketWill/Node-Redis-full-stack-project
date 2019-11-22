@@ -2,11 +2,14 @@ import * as express from 'express';
 import { Request, Response } from 'express';
 import api from './api';
 
+var cors = require('cors')
 
 const app = express();
 const { 
   PORT = 3000
 } = process.env;
+
+app.use(cors());
 
 app.use('/api/v1', api);
 

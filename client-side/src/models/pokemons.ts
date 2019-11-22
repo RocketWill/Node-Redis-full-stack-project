@@ -1,12 +1,12 @@
 export default {
-    namespace: 'products',
-    state: [],
+    namespace: 'pokemons',
+    state: {},
     reducers: {
       delete(state, { payload: id }) {
         return state.filter(item => item.id !== id);
       },
       save(state, {payload: data}) {
-          return data;
+          return {...state, pokemonsList: data}
       }
     },
   };
