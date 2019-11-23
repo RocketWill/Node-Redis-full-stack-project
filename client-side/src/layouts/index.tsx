@@ -7,7 +7,7 @@ const BasicLayout: React.FC = props => {
     <div className={styles.normal}>
       
       <h1 className={styles.title}><img src={ pokemonLogo } alt="pokemon logo" style={{ width: 200 }} /> <span style={{ fontSize: 20, letterSpacing: 1 }}>with Redis</span></h1>
-      <div style={{ padding: 30 }}>{props.children}</div>
+      <div className={styles.content}>{props.children}</div>
     </div>
   );
 };

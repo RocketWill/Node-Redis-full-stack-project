@@ -1,11 +1,12 @@
+import { PokemonInfo as IPokemonInfo } from '../pages/DisplayPokemons/data.d';
 export default {
     namespace: 'pokemons',
     state: {},
     reducers: {
-      delete(state, { payload: id }) {
+      delete(state: IPokemonInfo[], { payload: id }: {payload: number}) {
         return state.filter(item => item.id !== id);
       },
-      save(state, {payload: data}) {
+      save(state: IPokemonInfo[], {payload: data}: {payload: IPokemonInfo[]}) {
           return {...state, pokemonsList: data}
       }
     },

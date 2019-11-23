@@ -12,6 +12,14 @@ const config: IConfig = {
           component: './pokemons',
         },
         {
+          path: '/pokemoninfo',
+          component: './pokemoninfo',
+        },
+        {
+          path: '/pokemoninfo/:id',
+          component: './pokemoninfo/$id.tsx',
+        },
+        {
           path: '/',
           component: '../pages/index',
         },

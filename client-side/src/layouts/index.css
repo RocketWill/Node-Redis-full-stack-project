@@ -12,3 +12,23 @@
   color: white;
   margin: 0;
 }
+
+.content {
+  padding-left: 300px;
+  padding-right: 300px; 
+  margin-top: 50px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .content {
+    padding-left: 50px;
+    padding-right: 50px; 
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .content {
+    padding-left: 20px;
+    padding-right: 20px; 
+  }
+}
