@@ -45,6 +45,17 @@ which redis-cli
     - `info` 命令查看redis信息
 
 ## Redis 操作
+#### 备份与还原
+有两种方式：
+1. 拷贝 rdb 文件  
+    - 参考 https://www.digitalocean.com/community/tutorials/how-to-back-up-and-restore-your-redis-data-on-ubuntu-14-04
+    - 缺点是只能在本机操作
+2. Dump and restore 
+    - 安装： `[sudo] npm i redis-dump -g`
+    - 导出数据库：`redis-dump -p 6379 -h localhost -d 0 > file.txt #backup`
+    - 导入数据：`cat file.txt | redis-cli`
+
+
 #### 数据类型
 
 数据类型 | 可以存储的值 | 操作
