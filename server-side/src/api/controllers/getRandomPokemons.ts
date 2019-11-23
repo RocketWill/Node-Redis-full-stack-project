@@ -103,8 +103,8 @@ const getPokemons = (lst, res) => {
 };
 
 export function getRandomPokemons(req: Request, res: Response) {
-  const lst = getRandomNumbersList(0, 100, 12);
-  // const lst = [ 39, 68, 90, 75, 87, 20, 12, 4, 59, 92, 89, 17 ]
+  const lst = getRandomNumbersList(1, 180, 12);
+  // const lst = [ 46, 35, 0, 24, 23, 52, 48, 88, 13, 19, 67, 78 ]
   getPokemons(lst, res);
   // newClient.getAsync(11).then(d => console.log(d))
 

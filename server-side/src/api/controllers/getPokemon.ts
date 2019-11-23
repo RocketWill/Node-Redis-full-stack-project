@@ -32,7 +32,10 @@ const getPokemonInfo = (id: any, res: Response) => {
                     redisClient.setex(d.name, 7200, JSON.stringify(d));
                     res.send(d);
                 })
-                .catch(err => console.error(err))
+                .catch(err => {
+                    // res.status(500);
+                    res.send(err)
+                })
         }
     })
 }
