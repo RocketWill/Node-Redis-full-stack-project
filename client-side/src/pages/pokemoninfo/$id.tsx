@@ -182,7 +182,7 @@ class PokemonInfo extends Component<any, IState> {
   });
 
   backwardPage = (value: any) => {
-    let { id } = this.state;
+    let { id } = this.state.currentPokemon;
     id = parseInt(id);
     if (id > 1) id -= 1;
     this.setState({ id });
@@ -190,7 +190,7 @@ class PokemonInfo extends Component<any, IState> {
   };
 
   forwardPage = (value: any) => {
-    let { id } = this.state;
+    let { id } = this.state.currentPokemon;
     id = parseInt(id);
     if (id < 300) id += 1;
     this.setState({ id });
