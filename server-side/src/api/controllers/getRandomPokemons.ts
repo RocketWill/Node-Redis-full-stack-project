@@ -16,7 +16,7 @@ redisClient.on("error", function(err) {
   console.log("Something went wrong " + err);
 });
 
-const newClient = Promise.promisifyAll(redisClient);
+const redisClientAsync = Promise.promisifyAll(redisClient);
 
 const getRandomNumbersList = (
   min: number,
@@ -24,8 +24,6 @@ const getRandomNumbersList = (
   total: number
 ): any[] => {
   let resArr = [] as any[];
-  let totalNum = total;
-  let inRedis = [];
   while (resArr.length < total) {
     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -39,33 +37,7 @@ const getRandomNumbersList = (
 };
 
 const getPokemons = (lst, res) => {
-  // const pokemonsInfo = lst.map(pokemonId => {
-  //   // redisClient.get(pokemonId, async (err, data) => {
-  //   //   if (data) {
-  //   //     return await JSON.parse(data);
-  //   //   }
-  //   //   else{
-  //   //     return (
-  //   //       await axios (`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
-  //   //         .then(d => d.data)
-  //   //         // .catch(err => console.error(err))
-  //   //     )
-  //   //   }
-  //   // })
-  //   // return (
-  //   //   axios (`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
-  //   //     .then(d => d.data)
-  //   //     .catch(err => console.error(err))
-  //   // )
-  // })
-  // redisClient.mget(lst, (err, data) => {
-  //   // console.log(data)
-  //   const f = data.map(d => JSON.parse(d))
-  //   res.send(f)
-  // })
-  // return pokemonsInfo;
-
-  newClient
+  redisClientAsync
     .mgetAsync(lst)
     .then(infoList => {
       const finalInfoList = [];
@@ -99,32 +71,10 @@ const getPokemons = (lst, res) => {
         res.send(finalData);
       });
     });
-  // return pokemonsInfo;
 };
 
 export function getRandomPokemons(req: Request, res: Response) {
   const lst = getRandomNumbersList(1, 180, 12);
   // const lst = [ 46, 35, 0, 24, 23, 52, 48, 88, 13, 19, 67, 78 ]
   getPokemons(lst, res);
-  // newClient.getAsync(11).then(d => console.log(d))
-
-  // console.log(aaa)
-
-  //pokemonList.then(s => console.log(s))
-
-  // Promise.all(pokemonList).then((values) => {
-  //   const finalData = values.map(value => {
-  //     if (Object.keys(value).length > 7) {
-  //       console.log("origin")
-  //       const modifiedData = sortOutData(value);
-  //       redisClient.set(modifiedData['id'], JSON.stringify(modifiedData))
-  //       return modifiedData;
-  //     }
-  //     else {
-  //       console.log("output redis")
-  //       return value;
-  //     };
-  //   })
-  //   res.send(finalData)
-  // });
 }

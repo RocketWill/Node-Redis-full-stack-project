@@ -97,7 +97,7 @@ class RandomPokemons extends Component<IProps, IState> {
     return (
       <div>
         <Search
-          placeholder="Enter Pokémon name or ID"
+          placeholder="Enter Pokémon's name or ID"
           enterButton="Search"
           size="large"
           onSearch={this.handleSearch}
