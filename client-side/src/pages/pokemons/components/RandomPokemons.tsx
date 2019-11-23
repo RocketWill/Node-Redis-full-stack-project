@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Card, Row, Col } from 'antd';
-import { PokemonInfo as IPokemonInfo } from '../data.d';
+import { PokemonInfo as IPokemonInfo } from '../../data.d';
+import Link from 'umi/link';
+import router from 'umi/router';
 import style from '../index.css';
 
 const { Meta } = Card;
@@ -59,18 +61,22 @@ class RandomPokemons extends Component<IProps, IState> {
         })
     }
 
+    handleCardClick = (id: number) => {
+        router.push(`/pokemoninfo/${id}`);
+    }
+
     render() {
         const { pokemonsList } = this.state;
-        console.log(pokemonsList)
         return (
             <div>
                 <Row type="flex" justify="center" gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 20]}>
                     {pokemonsList.map((d: IPokemonInfo) => (
-                        <Col span={[4, {xs: 24, sm: 12, md: 6, lg: 6}]}>
+                        <Col span={[4, {xs: 24, sm: 12, md: 6, lg: 6}] as any}>
                             <Card
                                 hoverable={true}
                                 style={{width: 220, marginBottom: 30 }}
                                 cover={<img alt={d.name} src={d.sprite} />}
+                                onClick={(id: any) => this.handleCardClick(d.id)}
                             >
                                 <Meta title={<span style={{ fontSize: 20, fontWeight: 700 }}>{d.name.toUpperCase()}</span>} description={`#${d.id}`} />
                             </Card>

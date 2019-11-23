@@ -9,7 +9,6 @@ class Products extends Component<any, any> {
     componentDidMount() {
         axios.get('https://pokeapi.co/api/v2/pokemon/pikachu/')
             .then((res: any) => {
-                console.log(res.data);
                 const { dispatch } = this.props;
                 // dispatch({
                 //     type: 'products/save',

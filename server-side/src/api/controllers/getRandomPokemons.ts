@@ -2,6 +2,8 @@ import { Request, Response, response } from "express";
 import { arrayTypeAnnotation } from "@babel/types";
 import * as Promise from "bluebird";
 import { json } from "body-parser";
+import { sortOutData } from "./utils";
+
 
 const axios = require("axios");
 const redis = require("redis");
@@ -34,33 +36,6 @@ const getRandomNumbersList = (
   }
   console.log(resArr);
   return resArr;
-};
-
-const sortOutData = rawData => {
-  const id = rawData["id"];
-  const profile = {
-    weight: rawData["weight"],
-    height: rawData["height"],
-    abilities: rawData["abilities"].map(ability => ability["ability"])
-  };
-  const held_items = rawData["held_items"].map(item => item["item"]);
-  const stats = rawData["stats"].map(stat => ({
-    name: stat["stat"]["name"],
-    value: stat["base_stat"]
-  }));
-  const sprite = rawData["sprites"]["front_default"];
-  const name = rawData["name"];
-  const types = rawData["types"].map(type => type["type"]);
-
-  return {
-    id,
-    profile,
-    held_items,
-    stats,
-    sprite,
-    name,
-    types
-  };
 };
 
 const getPokemons = (lst, res) => {
@@ -128,8 +103,8 @@ const getPokemons = (lst, res) => {
 };
 
 export function getRandomPokemons(req: Request, res: Response) {
-  // const lst = getRandomNumbersList(0, 100, 12);
-  const lst = [ 39, 68, 90, 75, 87, 20, 12, 4, 59, 92, 89, 17 ]
+  const lst = getRandomNumbersList(0, 100, 12);
+  // const lst = [ 39, 68, 90, 75, 87, 20, 12, 4, 59, 92, 89, 17 ]
   getPokemons(lst, res);
   // newClient.getAsync(11).then(d => console.log(d))
 

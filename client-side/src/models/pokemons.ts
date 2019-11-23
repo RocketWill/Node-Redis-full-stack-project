@@ -1,4 +1,4 @@
-import { PokemonInfo as IPokemonInfo } from '../pages/DisplayPokemons/data.d';
+import { PokemonInfo as IPokemonInfo } from '../pages/data.d';
 export default {
     namespace: 'pokemons',
     state: {},
