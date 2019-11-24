@@ -4,8 +4,84 @@
 ![app flow](https://raw.githubusercontent.com/RocketWill/Node-Redis-full-stack-project/master/readme-images/app-flow.png)  
 其中最右端的数据库也可以是外部应用程序，有些 API 服务可能是按次收费或限制请求次数，如此一来就有必要加入 Redis 以解决这个问题
 ## 应用介绍
+#### Demo 地址
+http://35.229.181.241  
+若失效请见谅
 #### 成果展示
-
+![app demo](https://raw.githubusercontent.com/RocketWill/Node-Redis-full-stack-project/master/readme-images/app-demo.gif) 
+#### 说明
+1. 使用 [PokéAPI](https://pokeapi.co)，可以通过宝可梦名字或 id 查询特定宝可梦信息
+2. 进入应用首页时，会随机显示 12 张宝可梦卡片，仅包含名称和 id
+3. 首页上方的搜寻拦支持输入宝可梦名或 id，进行查找特定宝可梦
+4. 点击首页上的卡片会进入详情页，该页显示宝可梦的相关信息
+    - ID
+    - Type（宝可梦属性）
+    - Held Items (持有物品)
+    - Profile
+        - Height（身长）
+        - Weight（体重）
+    - Abilities（招式）
+    - Stats（能力指标）
+        - hp （血量）
+        - attack（攻击力）
+        - defense（防御力）
+        - special-attack（特殊攻击力）
+        - special-defense（特殊防御力）
+        - speed（速度）
+5. 宝可梦详情页可以点击图示下方的左右箭头切换显示前一个或后一个 id 的宝可梦
+## 应用实现
+#### 后端
+##### 数据格式
+1. 根据 `https://pokeapi.co/api/v2/pokemon/{name or id}` 得到的数据包含以下属性，具体请见[官网](https://pokeapi.co)
+```
+1) abilities: array
+2) base_experience: number
+3) forms: array
+4) game_indices: array 
+5) height: number
+6) held_items: array
+7) id: number
+8) is_default: boolean
+9) location_area_encounters: string
+10) moves: array
+11) name: string
+12) order: number
+13) species: object
+14) sprites: object
+15) stats: array
+16) types: array
+17) weight: number
+```
+2. 由于本次应用较简单，并不需要使用所有的宝可梦信息，所以在后端返回数据前将格式整理成以下形式
+```
+interface PokemonInfo {
+    id: number;
+    profile: {
+        weight: number;
+        height: number;
+        abilities: {
+            name?: string;
+            utl?: string;
+        }[];
+    };
+    held_items: {
+        name?: string;
+        url?: string;
+    }[];
+    stats: {
+        name?: string;
+        value?: number;
+    }[];
+    sprite: string;
+    name: string;
+    types: {
+        name?: string;
+        url?: string;
+    }[];
+}
+```
+#### 前端
+#### 部署
 ## Redis 介绍
 #### 为何要使用 redis
 随着用户不断地增长，后端数据库请求的需求量爆增，为了降低响应时间和巨额成本，必须做一个 Caching 来保存该死的数据库请求。
@@ -245,6 +321,3 @@ ZSCORE sortedSet Netherlands
 output:
 "40"
 ```
-## 应用介绍
-
-## 部署
