@@ -80,8 +80,98 @@ interface PokemonInfo {
     }[];
 }
 ```
+##### Express API
+1. `GET /random-pokemons`  
+    - 用途：返回 12 个随机的宝可梦信息
+    - 说明：
+        - 先产生包含 12 个不同数字的随机数组。
+        - 使用 Redis 的 `MGET` 方法，查询 Redis 中是否已经存在这些 id，有则返回对应数据；没有则返回 null。example：`[data, null, null, data, data, null, data, data, null, null, null, data]`
+        - 使用 map 方法将 null 替换成 `axios.get(https://pokeapi.co/api/v2/pokemon/{对应id})`，此为 Promise 对象
+        - 用 `Promise.all` 取得最后数据，整理后返回，同时将 Redis 中不存在的数据写入
+2. `GET /pokemons/:{id or name}`  
+    - 用于：返回单个宝可梦信息
+    - 参数（择一）：
+        - id（宝可梦 id）
+        - name（宝可梦名字）
+    - 说明：
+        - 取得参数的 id 或 name
+        - 先查看 Redis 中是否有以该 id 或 name 为 key 的值，有则直接返回
+        - 若无则到外部应用查，取得数据整理后返回，同时写入 Redis 中
 #### 前端
+1. React 框架：[Umi.js](https://umijs.org/)
+2. UI 库：[Ant Design](https://ant.design/)
 #### 部署
+##### 开发模式
+1. 启动本机 Redis，设置端口为 `6379`
+2. 后端启动
+    - 进入 server-side 文件夹
+    - 运行 `yarn` 安装依赖
+    - 运行 `yarn start:dev` 启动
+3. 前段启动
+    - 进入 client-side 文件夹
+    - 运行 `yarn` 安装依赖
+    - 运行 `yarn start` 启动
+##### Docker
+使用 Docker Compose
+1. server-side.dockerfile
+```
+FROM node:10-alpine
+WORKDIR /app
+COPY . ./
+RUN yarn
+EXPOSE 3000
+```
+2. client-side.dockerfile
+```
+FROM node:10-alpine as react-build
+WORKDIR /app
+COPY . ./
+RUN yarn
+RUN yarn build
+
+# Stage 2 - the production environment
+FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=react-build /app/dist /usr/share/nginx/html
+EXPOSE 80
+```
+3. docker-compose.yaml
+```
+version: '2'
+services:
+  client:
+    environment:
+      - SERVER_IP=${SERVER_IP}
+    image: pokemon-client:0.0.1
+    container_name: client_side
+    hostname: client
+    ports:
+      - 80:80
+    command: "nginx -g daemon off;"
+
+  server:
+    environment:
+      - PORT=3000
+      - SERVER_IP=${SERVER_IP}
+    image: pokemon-server:0.0.1
+    container_name: server_side
+    hostname: server
+    links: 
+      - redis
+    ports:
+      - 3000:3000
+    command: "yarn build"
+
+  redis:
+    image: redis
+    working_dir: /cache
+    container_name: redis
+    hostname: redis
+    ports:
+      - 6379
+    command: "redis-server"
+```
+4. 运行 `docker-compose up -d` 启动
 ## Redis 介绍
 #### 为何要使用 redis
 随着用户不断地增长，后端数据库请求的需求量爆增，为了降低响应时间和巨额成本，必须做一个 Caching 来保存该死的数据库请求。
