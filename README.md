@@ -1,5 +1,11 @@
 ﻿# Node-Redis-simple-full-stack-project
 使用 React, Express 结合 Redis，开发简易的 Pokémon 宝可梦卡片展示全栈应用
+## 流程
+![app flow](https://raw.githubusercontent.com/RocketWill/Node-Redis-full-stack-project/master/readme-images/app-flow.png)  
+其中最右端的数据库也可以是外部应用程序，有些 API 服务可能是按次收费或限制请求次数，如此一来就有必要加入 Redis 以解决这个问题
+## 应用介绍
+#### 成果展示
+
 ## Redis 介绍
 #### 为何要使用 redis
 随着用户不断地增长，后端数据库请求的需求量爆增，为了降低响应时间和巨额成本，必须做一个 Caching 来保存该死的数据库请求。
