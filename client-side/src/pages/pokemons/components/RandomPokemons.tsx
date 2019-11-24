@@ -9,6 +9,7 @@ import style from '../index.css';
 const { Meta } = Card;
 const { Search } = Input;
 const axios = require('axios');
+const serverIp = process.env.SERVER_IP || "localhost";
 
 interface IState {
   loading: boolean;
@@ -38,7 +39,7 @@ class RandomPokemons extends Component<IProps, IState> {
   componentDidMount() {
     this.setState({ loading: true }, () => {
       axios
-        .get('http://localhost:3000/api/v1/random-pokemons')
+        .get(`http://${serverIp}:3000/api/v1/random-pokemons`)
         .then((res: any) => res.data)
         .then((res: IPokemonInfo[]) => {
           this.setState({ pokemonsList: res });

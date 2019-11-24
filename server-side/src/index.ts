@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import api from './api';
 
 var cors = require('cors')
+const serverIp = process.env.SERVER_IP || "localhost";
 
 const app = express();
 const { 
@@ -21,7 +22,7 @@ app.get('/', (req: Request, res: Response) => {
 
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log('server started at http://localhost:'+PORT);
+    console.log(`server started at http://${serverIp}:${PORT}`);
   });
 }
 

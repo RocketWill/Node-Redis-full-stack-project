@@ -28,6 +28,7 @@ const { Text } = Typography;
 const ButtonGroup = Button.Group;
 
 const axios = require('axios');
+const serverIp = process.env.SERVER_IP || "localhost";
 
 interface IState {
   currentPokemon: IPokemonInfo;
@@ -52,7 +53,7 @@ class PokemonInfo extends Component<any, IState> {
     this.setState({ id: this.props.match.params.id }, () => {
       this.setState({ loading: true });
       axios
-        .get(`http://localhost:3000/api/v1/pokemon/${this.state.id}`)
+        .get(`http://${serverIp}:3000/api/v1/pokemon/${this.state.id}`)
         .then((info: any) => info.data)
         .then((info: IPokemonInfo) => this.setState({ currentPokemon: info }))
         .catch((err: any) => console.error(err))
@@ -64,7 +65,7 @@ class PokemonInfo extends Component<any, IState> {
     if (this.state.id != nextState.id) {
       this.setState({ loading: true });
       axios
-        .get(`http://localhost:3000/api/v1/pokemon/${nextState.id}`)
+        .get(`http://${serverIp}:3000/api/v1/pokemon/${nextState.id}`)
         .then((info: any) => info.data)
         .then((info: IPokemonInfo) => this.setState({ currentPokemon: info }))
         .catch((err: any) => console.error(err))
