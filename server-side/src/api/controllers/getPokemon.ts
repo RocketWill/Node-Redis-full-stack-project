@@ -4,7 +4,9 @@ import { sortOutData } from "./utils";
 
 const axios = require("axios");
 const redis = require("redis");
-const redisClient = redis.createClient(6379, "127.0.0.1");
+
+const redisHost = process.env.REDIS_HOST || 'redis' || '127.0.0.1';
+const redisClient = redis.createClient(6379, redisHost);
 
 redisClient.on("connect", function() {
   console.log("Redis client connected");
